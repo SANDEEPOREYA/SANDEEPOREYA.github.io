@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Quality Analysis</title>
+    <link rel="icon" href="./image/logo.svg" type="image/x-icon">
+    <!-- leaflet  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <!-- <link rel="stylesheet" href="./navbar.css"> -->
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rasa:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <!-- <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.1.0/firebase-app.min.js"></script>
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.1.0/firebase-database.min.js"></script> -->
+</head>
+<body>
+    <!-- Navigation-->
+    <nav id="nav">
+        <div class="nav-container">
+            <a class="navbar-brand" href="#"><img src="./image/logo.svg" alt="Water Quality Index"></a>
+            <div class="insti-logo">
+                <img src="./image/iit-logo.png" alt="IITKGP-logo">
+                <div class="insti-logo-text">
+                    <span style="font-weight: bold;">Agricultural and Food Engineering</span>
+                    <span>Indian Institute of Technology</span>
+                    <span>Kharagpur</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- main content -->
+    <section>
+        <form id="form">
+            <fieldset id="fs-1">
+                <legend>Co-ordinates of Location</legend>
+
+                <label for="Latitude">Latitude</label>
+                <input type="text" name="Latitude" id="latitude" placeholder="0.0">
+
+                <label for="Longitude">Longitude</label>
+                <input type="text" name="Longitude" id="longitude" placeholder="0.0">
+
+                <label for="Search"></label>
+                <input type="button" id="search" value="Search">
+
+                <div id="map"></div>
+            </fieldset>
+
+            <fieldset id="fs-2">
+                <legend>Water Quality Index Calculator</legend>
+
+                <label for="ph">pH</label>
+                <input type="text" id="ph" name="ph">
+
+                <label for="Electrical Conductivity">Electrical Conductivity</label>
+                <input type="text" id="EC" name="Electrical Conductivity" placeholder="Unit in S/m">
+
+                <label for="Turbidity">Turbidity</label>
+                <input type="text" id="turbidity" name="Turbidity" placeholder="Unit in NTU">
+
+                <label for="Total Dissolved Solids(TDS)">Total Dissolved Solids(TDS)</label>
+                <input type="text" id="TDS" name="Total Dissolved Solids(TDS)" placeholder="Unit in mg/L">
+
+                <label for="Dissolved Oxygen(DO)">Dissolved Oxygen(DO)</label>
+                <input type="text" id="DO" name="Dissolved Oxygen(DO)" placeholder="Unit in mg/L">
+
+                <label for="B.O.D">B.O.D</label>
+                <input type="text" id="BOD" name="B.O.D" placeholder="Unit in mg/L">
+
+                <label for="C.O.D">C.O.D</label>
+                <input type="text" id="COD" name="C.O.D" placeholder="Unit in mg/L">
+
+                <label for="Sulphate">Sulphate</label>
+                <input type="text" id="sulphate" name="Sulphate" placeholder="Unit in mg/L">
+
+                <label for="Sodium">Sodium</label>
+                <input type="text" id="sodium" name="Sodium" placeholder="Unit in mg/L">
+
+                <label for="Phosphate">Phosphate</label>
+                <input type="text" id="phosphate" name="Phosphate" placeholder="Unit in mg/L">
+                
+                <label for="Chloride">Chloride</label>
+                <input type="text" id="chloride" name="Chloride" placeholder="Unit in mg/L">
+
+                <label for="Ammonia">Ammonia</label>
+                <input type="text" id="ammonia" name="Ammonia" placeholder="Unit in mg/L">
+
+                <label for="Nitrate">Nitrate</label>
+                <input type="text" id="nitrate" name="Nitrate" placeholder="Unit in mg/L">
+
+                <label for="Total Hardness">Total Hardness</label>
+                <input type="text" id="TH" name="Total Hardness" placeholder="Unit in mg/L">
+
+                <label for="Total Alkalinity">Total Alkalinity</label>
+                <input type="text" id="TA" name="Total Alkalinity" placeholder="Unit in mg/L">
+
+                <label for="submit"></label>
+                <input type="submit" name="submit" value="Calculate WQI">
+
+            </fieldset>
+            
+            <fieldset>
+                <legend>Water Quality Report</legend>
+
+                <div class="fs-3-child">
+                    <label for="WQI">Overall Water Quality Index</label>
+                    <div id="WQI">
+                        <span id="WQI_span"></span>
+                    </div>
+                </div>
+                <div class="fs-3-child">
+                    <table>
+                        <tr>
+                            <th>WQI Value</th>
+                            <th>Water Quality</th>
+                            <th>Grading</th>
+                        </tr>
+                        <tr>
+                            <td>0-25</td>
+                            <td>Excellent</td>
+                            <td>A</td>
+                        </tr>
+                        <tr>
+                            <td>26-50</td>
+                            <td>Good</td>
+                            <td>B</td>
+                        </tr>
+                        <tr>
+                            <td>51-75</td>
+                            <td>Poor</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <td>76-100</td>
+                            <td>Very Poor</td>
+                            <td>D</td>
+                        </tr>
+                        <tr>
+                            <td>Above 100</td>
+                            <td>Unsuitable for drinking</td>
+                            <td>E</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="fs-3-child">
+                    <table>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Unit Weight</th>
+                            <th>Quality Rating(%)</th>
+                        </tr>
+                        <tr>
+                            <td>pH</td>
+                            <td>0.446</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Electrical Conductivity</td>
+                            <td>0.013</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Turbidity</td>
+                            <td>3.795</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Dissolved Solids(TDS)</td>
+                            <td>0.007</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dissolved Oxygen(DO)</td>
+                            <td>0.759</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>B.O.D</td>
+                            <td>0.759</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>C.O.D</td>
+                            <td>0.843</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sulphate</td>
+                            <td>0.019</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sodium</td>
+                            <td>0.019</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Phosphate</td>
+                            <td>0.019</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Chloride</td>
+                            <td>0.015</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ammonia</td>
+                            <td>7.590</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nitrate</td>
+                            <td>0.084</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Hardness</td>
+                            <td>0.013</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Alkalinity</td>
+                            <td>0.019</td>
+                            <td>
+                                <span></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="fs-3-child">
+                    <label for="WQIL">Quality Rating Legend</label>
+                    <table>
+                        <tr>
+                            <th>Quality Rating Range(%)</th>
+                            <th>Quality</th>
+                        </tr>
+                        <tr>
+                            <td>0-25</td>
+                            <td>Very bad</td>
+                        </tr>
+                        <tr>
+                            <td>25-50</td>
+                            <td>Bad</td>
+                        </tr>
+                        <tr>
+                            <td>50-70</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td>70-90</td>
+                            <td>Good</td>
+                        </tr>
+                        <tr>
+                            <td>90-100</td>
+                            <td>Excellent</td>
+                        </tr>
+                    </table>
+                </div>
+            </fieldset>
+        </form>
+    </section>
+    <!-- footer -->
+    <footer></footer>
+    <!-- scripts -->
+    <script type="module" src="./scripts/firebase.js"></script>
+    <script src="./scripts/main.js"></script>
+</body>
+</html>

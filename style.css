@@ -1,0 +1,168 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+#nav {
+    background-color: #005772;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar-brand img {
+    width: 85px;
+}
+
+.insti-logo {
+    display: flex;
+}
+
+.insti-logo img {
+    width: 70px;
+    height: 70px;
+}
+
+.insti-logo-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Rasa', serif;
+    font-weight: 100;
+    font-size: 18px;
+    color: white;
+}
+
+@media screen and (max-width: 375px) {
+    .insti-logo {
+        display: none;
+    }
+}
+
+fieldset {
+    margin: 1em;
+    padding: 1em;
+    border-radius: 10px;
+    width: 50%;
+    min-width: 320px;
+}
+
+legend {
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: 'Roboto';
+}
+
+label {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+input::placeholder {
+    color: rgb(109, 109, 109);
+}
+
+label:first-of-type {
+    margin-top: 0;
+}
+
+input[type='text'] {
+    width: 60%;
+    height: 2.3em;
+    padding: 0.5em;
+    border: 2px solid #999;
+    font-weight: 600;
+    font-size: 1em;
+    font-family: 'Roboto', sans-serif;
+}
+
+input[type='text']:focus {
+    outline: 2px solid #000;
+}
+
+input[type='submit'], input[type='button'] {
+    padding: 0.5em 1em;
+    border-radius: 6px;
+    font-size: 1em;
+    color: white;
+    background: black;
+    cursor: pointer;
+    font-family: 'Roboto';
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+table {
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+}
+
+th, td {
+    border: 2px solid #dddddd;
+    text-align: center;
+    padding: 0.5em 0em;
+}
+
+input[type='button'] {
+    margin-bottom: 1.5em;
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+}
+
+label[for='WQI'] {
+    font-weight: 600;
+    color: rgb(95, 95, 95);
+    font-family: 'Roboto', sans-serif;
+}
+
+#WQI {
+    width: 60%;
+    height: 2.3em;
+    border: 2px solid #999;
+    border-radius: 6px;
+    padding: 0.5em;
+}
+#WQI_span {
+    font-weight: 600;
+}
+
+.fs-3-child {
+    margin-bottom: 1.5em;
+}
+
+.fs-3-child:last-of-type {
+    margin-bottom: 0em;
+}
+
+label[for='WQIL'] {
+    font-weight: 600;
+}
+
+footer {
+    width: 100%;
+    height: 3em;
+    background: #005772;
+}
